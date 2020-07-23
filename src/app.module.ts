@@ -1,17 +1,17 @@
-import path from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from 'nestjs-config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
+import configs from './config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-const ENV = process.env.NODE_ENV;
-
 @Module({
   imports: [
-    ConfigModule.load(path.resolve(__dirname, '*/**!(*.d).config.{ts,js}'), {
-      path: path.resolve(__dirname, 'env',  `.env.${ENV}`),
+    ConfigModule.forRoot({
+      load: configs,
+      envFilePath: `./env/.env.${process.env.NODE_ENV}`,
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => config.get('database'),

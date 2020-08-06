@@ -7,11 +7,11 @@ export default registerAs('database', () => ({
   username: process.env.DB_LOGIN,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: ["src/**/entity/*.ts"],
+  entities: ["../src/**/*.entity.ts"],
   options: {
     enableArithAbort: true,
     useUTC: true,
   },
-  synchronize: false,
+  synchronize: true,
   autoLoadEntities: true,
 }));
